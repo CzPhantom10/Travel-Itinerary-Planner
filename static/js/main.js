@@ -26,7 +26,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
 	form.addEventListener("submit", function(e) {
 		e.preventDefault();
-		aiSummary.textContent = "";
+		aiSummary.innerHTML = "";  // Changed from textContent to innerHTML
 		loader.style.display = "block";
 
 		const destination = document.getElementById("destination").value;
@@ -45,11 +45,11 @@ document.addEventListener("DOMContentLoaded", function() {
 		.then(res => res.json())
 		.then(data => {
 			loader.style.display = "none";
-			aiSummary.textContent = data.summary || "No summary generated.";
+			aiSummary.innerHTML = data.summary || "No summary generated.";  // Changed from textContent to innerHTML
 		})
 		.catch(() => {
 			loader.style.display = "none";
-			aiSummary.textContent = "Error generating itinerary. Please try again.";
+			aiSummary.innerHTML = "Error generating itinerary. Please try again.";  // Changed from textContent to innerHTML
 		});
 	});
 
