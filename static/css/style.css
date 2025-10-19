@@ -9,7 +9,7 @@ body {
 .bg-hero {
 	min-height: 100vh;
 	width: 100vw;
-	background: linear-gradient(rgba(255,255,255,0.85), rgba(255,255,255,0.85)), url('/static/images/homepage-bg.jpg') center/cover no-repeat;
+	background: linear-gradient(rgba(255, 255, 255, 0), rgba(255, 255, 255, 0)), url('/static/images/homepage-bg.jpg') center/cover no-repeat;
 	display: flex;
 	align-items: center;
 	justify-content: center;
@@ -17,7 +17,7 @@ body {
 .bg-landing {
 	min-height: 100vh;
 	width: 100vw;
-	background: linear-gradient(rgba(255,255,255,0.85), rgba(255,255,255,0.85)), url('/static/images/landingpage-bg.jpg') center/cover no-repeat;
+	background: linear-gradient(rgba(255, 255, 255, 0), rgba(255, 255, 255, 0)), url('/static/images/landingpage-bg.jpg') center/cover no-repeat;
 	display: flex;
 	align-items: center;
 	justify-content: center;
