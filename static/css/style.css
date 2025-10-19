@@ -47,7 +47,7 @@ body {
 	box-shadow: 0 8px 32px rgb(0 0 0 / 96%);
 	padding: 1.2rem 1.2rem;
 	width: 370px;
-	min-height: 520px;
+	min-height: 550px;
 	height: 520px;
 	flex: 0 0 370px;
 	display: flex;
@@ -61,7 +61,7 @@ body {
 	box-shadow: 0 8px 32px rgba(0,0,0,0.10);
 	padding: 1.2rem 1.2rem;
 	width: 370px;
-	min-height: 550px;
+	min-height: 590px;
 	flex: 0 0 370px;
 	padding: 2rem 2rem 1.5rem 2rem;
 	display: flex;
