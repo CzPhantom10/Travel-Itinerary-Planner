@@ -11,36 +11,44 @@
         <div class="container">
             <div class="planner-form modern">
                 <h2>Start Planning Your Trip</h2>
-                <form id="tripForm">
-                    <label for="destination">Destination:</label>
-                    <input type="text" id="destination" name="destination" required>
+                <form id="tripForm" style="display: flex; flex-direction: column; gap: 1.5rem;">
+                    <div style="display: flex; flex-direction: column; gap: 0.5rem;">
+                        <label for="destination">Destination:</label>
+                        <input type="text" id="destination" name="destination" required>
+                    </div>
 
-                    <div class="date-row">
-                        <div>
+                    <div style="display: flex; gap: 2rem;">
+                        <div style="flex:1; display: flex; flex-direction: column; gap: 0.5rem;">
                             <label for="from_date">From:</label>
                             <input type="date" id="from_date" name="from_date" required>
                         </div>
-                        <div>
+                        <div style="flex:1; display: flex; flex-direction: column; gap: 0.5rem;">
                             <label for="to_date">To:</label>
                             <input type="date" id="to_date" name="to_date" required>
                         </div>
                     </div>
 
-                    <label for="days">Number of Days:</label>
-                    <input type="number" id="days" name="days" min="1" required>
-
-                    <label for="budget">Budget (USD):</label>
-                    <input type="number" id="budget" name="budget" min="0" step="1" value="1000" required>
-
-                    <label>Interests:</label>
-                    <div class="interests">
-                        <label><input type="checkbox" name="interests" value="Nature"> Nature</label>
-                        <label><input type="checkbox" name="interests" value="Adventure"> Adventure</label>
-                        <label><input type="checkbox" name="interests" value="Food"> Food</label>
-                        <label><input type="checkbox" name="interests" value="Culture"> Culture</label>
-                        <label><input type="checkbox" name="interests" value="Relaxation"> Relaxation</label>
+                    <div style="display: flex; flex-direction: column; gap: 0.5rem;">
+                        <label for="days">Number of Days:</label>
+                        <input type="number" id="days" name="days" min="1" required>
                     </div>
-                    <button type="submit" id="generateBtn">Generate Plan</button>
+
+                    <div style="display: flex; flex-direction: column; gap: 0.5rem;">
+                        <label for="budget">Budget (USD):</label>
+                        <input type="number" id="budget" name="budget" min="0" step="1" value="1000" required>
+                    </div>
+
+                    <div style="display: flex; flex-direction: column; gap: 0.5rem;">
+                        <label>Interests:</label>
+                        <div class="interests">
+                            <label class="interest-pill"><input type="checkbox" name="interests" value="Nature"> Nature</label>
+                            <label class="interest-pill"><input type="checkbox" name="interests" value="Adventure"> Adventure</label>
+                            <label class="interest-pill"><input type="checkbox" name="interests" value="Food"> Food</label>
+                            <label class="interest-pill"><input type="checkbox" name="interests" value="Culture"> Culture</label>
+                            <label class="interest-pill"><input type="checkbox" name="interests" value="Relaxation"> Relaxation</label>
+                        </div>
+                    </div>
+                    <button type="submit" id="generateBtn" style="align-self: flex-start;">Generate Plan</button>
                 </form>
             </div>
             <div class="summary-box modern">
