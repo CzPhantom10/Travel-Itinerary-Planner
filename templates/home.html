@@ -1,560 +1,272 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>VoyageIQ - Plan Smarter. Travel Better.</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>VoyageIQ | AI Trip Planner</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: "Poppins", sans-serif;
+    }
 
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-            color: #1a1a1a;
-            overflow-x: hidden;
-        }
+    body {
+      background: #f9fafb;
+      color: #333;
+    }
 
-        /* Hero Section */
-        .hero {
-            min-height: 100vh;
-            background: linear-gradient(rgba(255, 255, 255, 0), rgba(255, 255, 255, 0)), url('/static/images/landingpage-bg.jpg') center center/cover no-repeat fixed;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 2rem;
-            position: relative;
-        }
+    /* ===== Hero Section ===== */
+    .hero {
+  position: relative;
+  background: url('/static/images/image.avif') center center/cover no-repeat;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  color: #fff;
+  overflow: hidden;
+    }
 
-        .hero-content {
-            text-align: center;
-            max-width: 600px;
-        }
+    .hero::before {
+  content: "";
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0, 0, 0, 0.45);
+    }
 
-        .hero-content h1 {
-            font-size: 3.5rem;
-            font-weight: 700;
-            line-height: 1.2;
-            margin-bottom: 1.5rem;
-            color: #3b82f6;
-            text-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
-        }
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      max-width: 700px;
+      padding: 20px;
+    }
 
-        .hero-content p {
-            font-size: 1rem;
-            color: #4b5563;
-            margin-bottom: 2rem;
-            line-height: 1.6;
-        }
+    .hero-content h1 {
+      font-size: 3.2rem;
+      font-weight: 700;
+      line-height: 1.2;
+      background: linear-gradient(90deg, #00C6FF, #3b82f6);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 1.2rem;
+      text-shadow: 0 0 10px rgba(0,0,0,0.3);
+    }
 
-        .cta-button {
-            display: inline-block;
-            padding: 0.9rem 2.2rem;
-            background: linear-gradient(90deg, #3b82f6 0%, #fbbf24 100%);
-            color: white;
-            text-decoration: none;
-            border-radius: 0.5rem;
-            font-weight: 600;
-            font-size: 0.95rem;
-            transition: all 0.15s ease;
-            border: none;
-            border-bottom: 4px solid #2563eb;
-            cursor: pointer;
-        }
+    .hero-content p {
+      font-size: 1.2rem;
+      line-height: 1.8;
+      color: #f3f4f6;
+      margin-bottom: 2rem;
+    }
 
-        .cta-button:hover {
-            filter: brightness(1.1);
-            transform: translateY(-1px);
-            border-bottom: 6px solid #2563eb;
-        }
+    .cta-button {
+      background: linear-gradient(90deg, #3b82f6, #00C6FF);
+      color: white;
+      padding: 14px 32px;
+      border: none;
+      border-radius: 50px;
+      font-size: 1.1rem;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      text-decoration: none;
+    }
 
-        .cta-button:active {
-            filter: brightness(0.9);
-            transform: translateY(2px);
-            border-bottom: 2px solid #2563eb;
-        }
+    .cta-button:hover {
+      transform: translateY(-4px) scale(1.05);
+      box-shadow: 0 8px 16px rgba(59,130,246,0.4);
+    }
 
-        /* Why Choose Section */
-        .why-choose {
-            padding: 5rem 2rem;
-            background: #f9fafb;
-        }
+    /* ===== Features Section ===== */
+    .features {
+      padding: 6rem 2rem;
+      text-align: center;
+      background: #fff;
+    }
 
-        .why-choose-container {
-            max-width: 1200px;
-            margin: 0 auto;
-        }
+    .features h2 {
+      font-size: 2.2rem;
+      font-weight: 600;
+      color: #111827;
+      margin-bottom: 2.5rem;
+    }
 
-        .why-choose h2 {
-            text-align: center;
-            font-size: 2.2rem;
-            margin-bottom: 0.8rem;
-            color: #1a1a1a;
-            font-weight: 700;
-        }
+    .feature-grid {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 2rem;
+    }
 
-        .why-choose-subtitle {
-            text-align: center;
-            color: #6b7280;
-            margin-bottom: 4rem;
-            font-size: 1rem;
-        }
+    .feature-card {
+      background: #f9fafb;
+      border-radius: 16px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+      padding: 2rem;
+      max-width: 280px;
+      transition: all 0.3s ease;
+    }
 
-        .features-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 2rem;
-        }
+    .feature-icon {
+      font-size: 2rem;
+      margin-bottom: 1rem;
+      background: #3b82f6;
+      color: white;
+      padding: 14px;
+      border-radius: 50%;
+      display: inline-block;
+    }
 
-        .feature-card {
-            background: white;
-            padding: 2.5rem 2rem;
-            border-radius: 16px;
-            text-align: center;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
-            transition: transform 0.3s, box-shadow 0.3s;
-        }
+    .feature-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 12px 28px rgba(0,0,0,0.1);
+    }
 
-        .feature-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
-        }
+    .feature-card:hover .feature-icon {
+      background: linear-gradient(90deg, #3b82f6, #fbbf24);
+    }
 
-        .feature-icon {
-            width: 70px;
-            height: 70px;
-            margin: 0 auto 1.5rem;
-            background: #3b82f6;
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 2rem;
-        }
+    .feature-card h3 {
+      font-size: 1.3rem;
+      margin-bottom: 0.8rem;
+      color: #111827;
+    }
 
-        .feature-card h3 {
-            font-size: 1.15rem;
-            margin-bottom: 1rem;
-            color: #1a1a1a;
-            font-weight: 700;
-        }
+    .feature-card p {
+      font-size: 1rem;
+      color: #4b5563;
+      line-height: 1.6;
+    }
 
-        .feature-card p {
-            color: #6b7280;
-            line-height: 1.6;
-            font-size: 0.9rem;
-        }
+    /* ===== Dashboard Preview ===== */
+    .dashboard-preview {
+      padding: 6rem 2rem;
+      background: linear-gradient(180deg, #ffffff 0%, #f9fafb 100%);
+      text-align: center;
+      border-top: 1px solid #e5e7eb;
+    }
 
-        /* Dashboard Section */
-        .dashboard {
-            padding: 5rem 2rem;
-            background: white;
-        }
+    .dashboard-preview h2 {
+      font-size: 2rem;
+      margin-bottom: 2rem;
+      color: #111827;
+    }
 
-        .dashboard-container {
-            max-width: 1200px;
-            margin: 0 auto;
-        }
+    .dashboard-preview img {
+      width: 80%;
+      max-width: 800px;
+      border-radius: 16px;
+      box-shadow: 0 12px 30px rgba(0,0,0,0.12);
+    }
 
-        .dashboard h2 {
-            text-align: center;
-            font-size: 2.2rem;
-            margin-bottom: 0.8rem;
-            color: #1a1a1a;
-            font-weight: 700;
-        }
+    /* ===== CTA Section ===== */
+    .cta-section {
+      background: linear-gradient(90deg, #3b82f6, #00C6FF);
+      color: white;
+      text-align: center;
+      padding: 5rem 2rem;
+    }
 
-        .dashboard-subtitle {
-            text-align: center;
-            color: #6b7280;
-            margin-bottom: 4rem;
-            font-size: 1rem;
-        }
+    .cta-section h2 {
+      font-size: 2.4rem;
+      margin-bottom: 1.2rem;
+    }
 
-        .dashboard-preview {
-            background: white;
-            padding: 2.5rem;
-            border-radius: 20px;
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
-            max-width: 900px;
-            margin: 0 auto;
-        }
+    .cta-section p {
+      font-size: 1.1rem;
+      margin-bottom: 2rem;
+    }
 
-        .dashboard-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 2rem;
-        }
+    .cta-button-white {
+      background: #fff;
+      color: #3b82f6;
+      padding: 14px 32px;
+      border-radius: 50px;
+      font-weight: 600;
+      text-decoration: none;
+      transition: all 0.3s ease;
+    }
 
-        .dashboard-header h3 {
-            font-size: 1.4rem;
-            color: #1a1a1a;
-            font-weight: 700;
-        }
+    .cta-button-white:hover {
+      transform: translateY(-4px) scale(1.05);
+      background: #f3f4f6;
+    }
 
-        .header-buttons {
-            display: flex;
-            gap: 0.8rem;
-        }
-
-        .btn-small {
-            padding: 0.5rem 1.2rem;
-            background: #3b82f6;
-            color: white;
-            border: none;
-            border-radius: 0.5rem;
-            border-bottom: 3px solid #2563eb;
-            font-size: 0.85rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.15s ease;
-        }
-
-        .btn-small:hover {
-            filter: brightness(1.1);
-            transform: translateY(-1px);
-            border-bottom: 4px solid #2563eb;
-        }
-
-        .btn-small:active {
-            filter: brightness(0.9);
-            transform: translateY(1px);
-            border-bottom: 2px solid #2563eb;
-        }
-
-        .trip-info {
-            background: #f9fafb;
-            padding: 1.8rem;
-            border-radius: 12px;
-            margin-bottom: 2rem;
-        }
-
-        .trip-info h4 {
-            font-size: 1rem;
-            color: #1a1a1a;
-            margin-bottom: 1.2rem;
-            font-weight: 600;
-        }
-
-        .day-section {
-            margin-bottom: 1.5rem;
-        }
-
-        .day-title {
-            font-weight: 600;
-            color: #1a1a1a;
-            margin-bottom: 0.6rem;
-            font-size: 0.95rem;
-        }
-
-        .activity {
-            padding-left: 1rem;
-            margin-bottom: 0.4rem;
-            color: #4b5563;
-            font-size: 0.88rem;
-        }
-
-        .stats-row {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 1.5rem;
-            margin-top: 2rem;
-        }
-
-        .stat-box {
-            background: #f9fafb;
-            padding: 1.5rem;
-            border-radius: 12px;
-            text-align: center;
-        }
-
-        .stat-label {
-            font-size: 0.85rem;
-            color: #6b7280;
-            margin-bottom: 0.5rem;
-            font-weight: 500;
-        }
-
-        .stat-value {
-            font-size: 1.8rem;
-            font-weight: 700;
-            color: #1a1a1a;
-        }
-
-        .tags {
-            display: flex;
-            gap: 1rem;
-            margin-top: 1.5rem;
-            flex-wrap: wrap;
-        }
-
-        .tag {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.4rem;
-            font-size: 0.8rem;
-            color: #6b7280;
-        }
-
-        .tag::before {
-            content: '•';
-            color: #3b82f6;
-            font-size: 1.2rem;
-        }
-
-        /* CTA Section */
-        .cta-section {
-            padding: 5rem 2rem;
-            background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 50%, #fbbf24 100%);
-            text-align: center;
-        }
-
-        .cta-section h2 {
-            font-size: 2.2rem;
-            margin-bottom: 1rem;
-            color: white;
-            font-weight: 700;
-        }
-
-        .cta-section p {
-            color: rgba(255, 255, 255, 0.9);
-            font-size: 1rem;
-            margin-bottom: 2.5rem;
-            max-width: 600px;
-            margin-left: auto;
-            margin-right: auto;
-        }
-
-        .cta-button-white {
-            display: inline-block;
-            padding: 0.9rem 2.2rem;
-            background: white;
-            color: #3b82f6;
-            text-decoration: none;
-            border-radius: 0.5rem;
-            font-weight: 600;
-            font-size: 0.95rem;
-            transition: all 0.15s ease;
-            border: none;
-            border-bottom: 4px solid #e5e7eb;
-            cursor: pointer;
-        }
-
-        .cta-button-white:hover {
-            filter: brightness(1.1);
-            transform: translateY(-1px);
-            border-bottom: 6px solid #e5e7eb;
-        }
-
-        .cta-button-white:active {
-            filter: brightness(0.9);
-            transform: translateY(2px);
-            border-bottom: 2px solid #e5e7eb;
-        }
-
-        /* Footer */
-        footer {
-            padding: 2.5rem 2rem;
-            background: white;
-            border-top: 1px solid #e5e7eb;
-        }
-
-        .footer-content {
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        .footer-top {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 2rem;
-        }
-
-        .footer-logo {
-            font-size: 1.3rem;
-            font-weight: 600;
-            color: #3b82f6;
-        }
-
-        .footer-links {
-            display: flex;
-            gap: 2.5rem;
-        }
-
-        .footer-links a {
-            color: #6b7280;
-            text-decoration: none;
-            transition: color 0.3s;
-            font-size: 0.9rem;
-        }
-
-        .footer-links a:hover {
-            color: #1a1a1a;
-        }
-
-        .footer-bottom {
-            text-align: center;
-            padding-top: 2rem;
-            border-top: 1px solid #e5e7eb;
-        }
-
-        .copyright {
-            color: #9ca3af;
-            font-size: 0.85rem;
-        }
-
-        /* Responsive */
-        @media (max-width: 768px) {
-            .hero-content h1 {
-                font-size: 2.5rem;
-            }
-
-            .features-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .stats-row {
-                grid-template-columns: 1fr;
-            }
-
-            .dashboard-header {
-                flex-direction: column;
-                align-items: flex-start;
-                gap: 1rem;
-            }
-
-            .footer-top {
-                flex-direction: column;
-                gap: 1.5rem;
-            }
-
-            .footer-links {
-                flex-direction: column;
-                gap: 1rem;
-                text-align: center;
-            }
-        }
-    </style>
+    /* Responsive */
+    @media (max-width: 768px) {
+      .hero-content h1 {
+        font-size: 2.4rem;
+      }
+      .dashboard-preview img {
+        width: 95%;
+      }
+    }
+  </style>
 </head>
 <body>
-    <!-- Hero Section -->
-    <section class="hero">
-        <div class="hero-content">
-            <h1>Plan Smarter.<br>Travel Better.</h1>
-            <p>Let AI craft your perfect travel itinerary based on your interests, budget, and destination.</p>
-            <a href="/plan" class="cta-button">Get Started</a>
-        </div>
-    </section>
 
-    <!-- Why Choose Section -->
-    <section class="why-choose">
-        <div class="why-choose-container">
-            <h2>Why Choose VoyageIQ?</h2>
-            <p class="why-choose-subtitle">Powerful features designed for modern travelers</p>
-            <div class="features-grid">
-                <div class="feature-card">
-                    <div class="feature-icon">✈️</div>
-                    <h3>Smart AI Planning</h3>
-                    <p>Our advanced AI analyzes your preferences and budget to create personalized itineraries. Experience travel planning tailored just for you.</p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon">📅</div>
-                    <h3>Personalized Daily Itinerary</h3>
-                    <p>Get optimized day-by-day schedules that balance activities, dining recommendations, and travel times, optimized for your comfort.</p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon">🗺️</div>
-                    <h3>Export & View on Maps</h3>
-                    <p>Seamlessly export your itinerary and visualize all destinations on maps for easy navigation and planning.</p>
-                </div>
-            </div>
-        </div>
-    </section>
+  <!-- ===== Hero Section ===== -->
+  <section class="hero">
+    <div class="hero-content">
+      <h1>Your Next Adventure,<br>Engineered by AI.</h1>
+      <p>Let <strong>VoyageIQ</strong> design a personalized travel plan that fits your time, budget, and vibe from perfect itineraries to must-see spots.</p>
+      <a href="/plan" class="cta-button"> Generate My Trip</a>
+    </div>
+  </section>
 
-    <!-- Dashboard Section -->
-    <section class="dashboard">
-        <div class="dashboard-container">
-            <h2>Your Travel Command Center</h2>
-            <p class="dashboard-subtitle">Intuitive dashboard to manage every aspect of your journey</p>
-            <div class="dashboard-preview">
-                <div class="dashboard-header">
-                    <h3>Trip Dashboard</h3>
-                    <div class="header-buttons">
-                        <button class="btn-small">Edit</button>
-                        <button class="btn-small">Share</button>
-                    </div>
-                </div>
-                
-                <div class="trip-info">
-                    <h4>Your AI-Generated Itinerary</h4>
-                    
-                    <div class="day-section">
-                        <div class="day-title">Day 1: Arrival & Exploration</div>
-                        <div class="activity">• 9:00 AM - Check-in at hotel</div>
-                        <div class="activity">• 12:00 PM - Lunch at local market</div>
-                        <div class="activity">• 3:00 PM - City heritage walk</div>
-                        <div class="activity">• 7:00 PM - Sunset viewing point</div>
-                    </div>
-                    
-                    <div class="day-section">
-                        <div class="day-title">Day 2: Cultural Heritage</div>
-                        <div class="activity">• 8:00 AM - Museum tour</div>
-                        <div class="activity">• 1:00 PM - Traditional cuisine</div>
-                        <div class="activity">• 4:00 PM - Art gallery visit</div>
-                    </div>
-                    
-                    <div class="day-section">
-                        <div class="day-title">Day 3: Adventure & Leisure</div>
-                        <div class="activity">• 7:00 AM - Trek to viewpoint</div>
-                        <div class="activity">• 12:00 PM - Riverside picnic</div>
-                        <div class="activity">• 5:00 PM - Relaxation time</div>
-                    </div>
-                </div>
+  <!-- ===== Features Section ===== -->
+  <section class="features">
+    <h2>Why Choose VoyageIQ?</h2>
+    <div class="feature-grid">
+      <div class="feature-card">
+        <div class="feature-icon">🧭</div>
+        <h3>AI-Powered Itinerary</h3>
+        <p>Get personalized day-by-day travel plans based on your interests, budget, and destination.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">💬</div>
+        <h3>Smart Suggestions</h3>
+        <p>Discover local gems and attractions recommended by our intelligent trip engine.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">📍</div>
+        <h3>Google Maps Integration</h3>
+        <p>View your trip’s key locations directly on Google Maps in one click.</p>
+      </div>
+    </div>
+  </section>
 
-                <div class="stats-row">
-                    <div class="stat-box">
-                        <div class="stat-label">Duration</div>
-                        <div class="stat-value">7 Days</div>
-                    </div>
-                    <div class="stat-box">
-                        <div class="stat-label">Budget</div>
-                        <div class="stat-value">₹52,400</div>
-                    </div>
-                    <div class="stat-box">
-                        <div class="stat-label">Activities</div>
-                        <div class="stat-value">24</div>
-                    </div>
-                </div>
+  <!-- ===== Dashboard Preview ===== -->
+  <!-- ===== How It Works Section ===== -->
+  <section class="how-it-works" style="background: #fff; border-radius: 24px; box-shadow: 0 8px 32px rgba(0,0,0,0.08); max-width: 900px; margin: 3rem auto; padding: 2.5rem 2rem;">
+    <h2 style="text-align:center; font-size:2.4rem; font-weight:800; color:#2563eb; margin-bottom:2.2rem; letter-spacing:-1px;">How It Works</h2>
+    <div style="display:flex; flex-wrap:wrap; gap:2.5rem; justify-content:center; align-items:flex-start;">
+      <div style="flex:1; min-width:220px; text-align:center;">
+        <img src="/static/images/step1.png" alt="Enter Trip Details" style="width:90px; height:90px; object-fit:contain; margin-bottom:1rem; border-radius:16px; box-shadow:0 4px 16px rgba(59,130,246,0.10);">
+        <h3 style="font-size:1.25rem; color:#2563eb; font-weight:700; margin-bottom:0.5rem;">1. Enter Your Trip Details</h3>
+        <p style="color:#444; font-size:1.05rem; line-height:1.6;">Choose your destination, travel dates, budget, and interests. Our smart form makes it easy!</p>
+      </div>
+      <div style="flex:1; min-width:220px; text-align:center;">
+        <img src="/static/images/step2.png" alt="Get AI Itinerary" style="width:90px; height:90px; object-fit:contain; margin-bottom:1rem; border-radius:16px; box-shadow:0 4px 16px rgba(59,130,246,0.10);">
+        <h3 style="font-size:1.25rem; color:#2563eb; font-weight:700; margin-bottom:0.5rem;">2. Get Your AI Itinerary</h3>
+        <p style="color:#444; font-size:1.05rem; line-height:1.6;">Our AI instantly crafts a personalized, day-by-day travel plan tailored to your preferences.</p>
+      </div>
+      <div style="flex:1; min-width:220px; text-align:center;">
+        <img src="/static/images/step3.png" alt="Export and Share" style="width:90px; height:90px; object-fit:contain; margin-bottom:1rem; border-radius:16px; box-shadow:0 4px 16px rgba(59,130,246,0.10);">
+        <h3 style="font-size:1.25rem; color:#2563eb; font-weight:700; margin-bottom:0.5rem;">3. Export & Share</h3>
+        <p style="color:#444; font-size:1.05rem; line-height:1.6;">Download your trip, share with friends, or view in Google Maps. Your adventure, your way!</p>
+      </div>
+    </div>
+  </section>
 
-                <div class="tags">
-                    <span class="tag">Must-see culture</span>
-                    <span class="tag">AI recommendations</span>
-                    <span class="tag">Budget tracking</span>
-                </div>
-            </div>
-        </div>
-    </section>
+  <!-- ===== CTA Section ===== -->
+  <section class="cta-section">
+    <h2>Ready to Craft Your Dream Journey?</h2>
+    <p>Start planning your next adventure with the power of AI — smarter, faster, and effortlessly.</p>
+    <a href="/plan" class="cta-button-white"> Plan with VoyageIQ</a>
+  </section>
 
-    <!-- CTA Section -->
-    <section class="cta-section">
-        <h2>Ready to Plan Your Next Adventure?</h2>
-        <p>Join thousands of travelers using VoyageIQ to create unforgettable journeys. Start planning today and make your travel dreams a reality.</p>
-        <a href="/plan" class="cta-button-white">Start Planning Now</a>
-    </section>
-
-    <!-- Footer -->
-    <footer>
-        <div class="footer-content">
-            <div class="footer-top">
-            </div>
-            <div class="footer-bottom">
-                <p class="copyright">© 2025 VoyageIQ. All rights reserved. Your AI-powered travel companion.</p>
-            </div>
-        </div>
-    </footer>
 </body>
 </html>
