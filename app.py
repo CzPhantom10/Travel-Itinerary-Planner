@@ -135,7 +135,9 @@ Repeat for all {days} days, with a unique title, 2-4 activities per day, and a u
 # Export page (download options)
 @app.route("/export_page")
 def export_page():
-    return render_template("export.html")
+    global last_ai_summary
+    formatted_summary = format_to_html(last_ai_summary) if last_ai_summary else "<p>No summary generated yet. Please generate a plan first.</p>"
+    return render_template("export.html", summary=formatted_summary)
 
 # Export file endpoint
 @app.route("/export", methods=["GET"])
