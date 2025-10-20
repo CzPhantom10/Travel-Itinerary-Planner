@@ -105,7 +105,7 @@ def generate_trip():
     interests = data.get("interests", [])
     
     prompt = f"""
-You are TripTactix, an AI-powered travel itinerary planner.
+You are VoyageIQ, an AI-powered travel itinerary planner.
 User Input:
 - Destination: {destination}
 - Dates: {from_date} to {to_date}
@@ -146,7 +146,7 @@ def export():
     fmt = request.args.get("format", "pdf")
     if fmt == "txt":
         txt_buffer = BytesIO(last_ai_summary.encode("utf-8"))
-        return send_file(txt_buffer, as_attachment=True, download_name="TripTactix_Itinerary.txt", mimetype="text/plain")
+        return send_file(txt_buffer, as_attachment=True, download_name="VoyageIQ_Itinerary.txt", mimetype="text/plain")
     else:
         try:
             from reportlab.lib.pagesizes import letter
@@ -160,10 +160,10 @@ def export():
             c.showPage()
             c.save()
             pdf_buffer.seek(0)
-            return send_file(pdf_buffer, as_attachment=True, download_name="TripTactix_Itinerary.pdf", mimetype="application/pdf")
+            return send_file(pdf_buffer, as_attachment=True, download_name="VoyageIQ_Itinerary.pdf", mimetype="application/pdf")
         except Exception:
             txt_buffer = BytesIO(last_ai_summary.encode("utf-8"))
-            return send_file(txt_buffer, as_attachment=True, download_name="TripTactix_Itinerary.txt", mimetype="text/plain")
+            return send_file(txt_buffer, as_attachment=True, download_name="VoyageIQ_Itinerary.txt", mimetype="text/plain")
 
 if __name__ == "__main__":
     app.run(debug=True)

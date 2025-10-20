@@ -1,4 +1,4 @@
-# TripTactix
+# VoyageIQ
 
 AI-powered travel itinerary planner using Flask, Groq AI, HTML/CSS/JS.
 
