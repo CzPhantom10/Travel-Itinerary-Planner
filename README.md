@@ -29,7 +29,7 @@ VoyageIQ is a modern, AI-powered web app that helps you plan smarter and travel 
 2. **Create and activate a virtual environment:**
 	```bash
 	python -m venv myenv
-	myenv\Scripts\activate  # On Windows
+	myenv\Scripts\activate 
 	```
 3. **Install dependencies:**
 	```bash
@@ -43,8 +43,6 @@ VoyageIQ is a modern, AI-powered web app that helps you plan smarter and travel 
 	```bash
 	python app.py
 	```
-6. **Open your browser:**
-	- Visit `http://localhost:5000`
 
 ## Project Structure
 ```
