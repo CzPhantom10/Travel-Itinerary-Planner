@@ -5,7 +5,7 @@ VoyageIQ is a modern, AI-powered web app that helps you plan smarter and travel 
 
 ---
 
-## 🚀 Features
+## Features
 - Enter destination, travel dates, number of days, budget, and interests
 - Get instant, personalized itineraries powered by Groq AI
 - Export your trip as PDF or TXT
@@ -13,13 +13,13 @@ VoyageIQ is a modern, AI-powered web app that helps you plan smarter and travel 
 - Beautiful, responsive UI with custom backgrounds and icons
 - Share your trip with friends
 
-## 🖼️ Screenshots
+## Screenshots
 
 | Home Page | Planner | Export | How It Works |
 |---|---|---|---|
-| ![Home](static/images/ss1.png) | ![Planner](static/images/ss2.png) | ![Export](static/images/ss3.png) | ![How It Works](static/images/ss4.png) |
+| ![Home](static/images/ss1.png) | ![Planner](static/images/ss5.png) | ![Export](static/images/ss4.png) | ![How It Works](static/images/ss2.png) |
 
-## 🛠️ Setup & Installation
+## Setup & Installation
 
 1. **Clone the repository:**
 	```bash
@@ -46,7 +46,7 @@ VoyageIQ is a modern, AI-powered web app that helps you plan smarter and travel 
 6. **Open your browser:**
 	- Visit `http://localhost:5000`
 
-## 📁 Project Structure
+## Project Structure
 ```
 ├── app.py
 ├── requirements.txt
@@ -63,5 +63,5 @@ VoyageIQ is a modern, AI-powered web app that helps you plan smarter and travel 
 │   └── ...
 ```
 
-## 📝 License
+## License
 © 2025 VoyageIQ. All rights reserved.
