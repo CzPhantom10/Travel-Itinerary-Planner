@@ -60,6 +60,3 @@ VoyageIQ is a modern, AI-powered web app that helps you plan smarter and travel 
 │   ├── export.html
 │   └── ...
 ```
-
-## License
-© 2025 VoyageIQ. All rights reserved.
