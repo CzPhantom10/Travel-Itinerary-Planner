@@ -47,7 +47,6 @@ class User(db.Model, UserMixin):
 class Review(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey("user.id"), nullable=False)
-    itinerary_text = db.Column(db.Text, nullable=True)
     rating = db.Column(db.Integer, nullable=False)
     comment = db.Column(db.Text, nullable=False)
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
@@ -139,6 +138,35 @@ def generate_with_groq(prompt):
 with app.app_context():
     try:
         db.create_all()
+        # Lightweight migration: drop legacy 'itinerary_text' column from review if it exists (SQLite-compatible)
+        insp = db.inspect(db.engine)
+        if 'review' in insp.get_table_names():
+            review_cols = [c['name'] for c in insp.get_columns('review')]
+            if 'itinerary_text' in review_cols:
+                from sqlalchemy import text
+                with db.engine.begin() as conn:
+                    conn.execute(text("PRAGMA foreign_keys=off;"))
+                    conn.execute(text(
+                        """
+                        CREATE TABLE IF NOT EXISTS review_new (
+                            id INTEGER PRIMARY KEY,
+                            user_id INTEGER NOT NULL,
+                            rating INTEGER NOT NULL,
+                            comment TEXT NOT NULL,
+                            created_at DATETIME,
+                            FOREIGN KEY(user_id) REFERENCES user(id)
+                        );
+                        """
+                    ))
+                    conn.execute(text(
+                        """
+                        INSERT INTO review_new (id, user_id, rating, comment, created_at)
+                        SELECT id, user_id, rating, comment, created_at FROM review;
+                        """
+                    ))
+                    conn.execute(text("DROP TABLE review;"))
+                    conn.execute(text("ALTER TABLE review_new RENAME TO review;"))
+                    conn.execute(text("PRAGMA foreign_keys=on;"))
     except Exception:
         pass
 
@@ -295,7 +323,6 @@ def add_review():
 
     review = Review(
         user_id=current_user.id,
-        itinerary_text=last_ai_summary or "",
         rating=rating,
         comment=comment,
     )
