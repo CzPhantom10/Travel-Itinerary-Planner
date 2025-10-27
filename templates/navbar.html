@@ -1,0 +1,18 @@
+<!-- Reusable Navbar: Brand left, links right; dynamic auth links -->
+<nav style="position: sticky; top: 0; z-index: 1000; display:flex; justify-content:space-between; align-items:center; gap:1rem; padding: 0.6rem 1rem; background: rgba(255,255,255,0.35); backdrop-filter: blur(10px); border-bottom: 1px solid rgba(0,0,0,0.05);">
+  <a href="/" style="display:flex; align-items:center; gap:.5rem; text-decoration:none; font-weight:800; color:#0f172a; letter-spacing:.2px;">
+    <span style="filter: drop-shadow(0 1px 1px rgba(0,0,0,.15));">✈️</span>
+    <span>VoyageIQ</span>
+  </a>
+  <div style="display:flex; align-items:center; gap:1rem;">
+    <a href="/" style="text-decoration:none; color:#1f2937; font-weight:600;">Home</a>
+    <a href="/export_page" style="text-decoration:none; color:#1f2937; font-weight:600;">Export</a>
+    {% if current_user.is_authenticated %}
+      <span style="color:#3b82f6; font-weight:700;">Hello, {{ current_user.username }}</span>
+      <a href="{{ url_for('logout') }}" style="text-decoration:none; color:#ef4444; font-weight:600;">Logout</a>
+    {% else %}
+      <a href="{{ url_for('login') }}" style="text-decoration:none; color:#1f2937; font-weight:600;">Login</a>
+      <a href="{{ url_for('signup') }}" style="text-decoration:none; color:#1f2937; font-weight:600;">Signup</a>
+    {% endif %}
+  </div>
+</nav>

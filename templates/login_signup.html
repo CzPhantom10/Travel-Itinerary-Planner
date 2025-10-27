@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>{% if mode=='login' %}Login{% else %}Signup{% endif %} - VoyageIQ</title>
+  <style>
+    body { font-family: 'Segoe UI', Arial, sans-serif; background: linear-gradient(135deg,#e3f2fd,#fdf2f8); min-height:100vh; display:flex; align-items:center; justify-content:center; padding:1rem; }
+    .card { background:#fff; border-radius:16px; padding:2rem; width:100%; max-width:420px; box-shadow:0 10px 30px rgba(0,0,0,.1); }
+    h1 { margin:0 0 1rem; font-size:1.6rem; color:#111827; }
+    label { display:block; font-weight:600; font-size:.9rem; margin:.75rem 0 .25rem; color:#374151; }
+    input { width:100%; padding:.75rem 1rem; border:2px solid #e5e7eb; border-radius:10px; }
+    input:focus { outline:none; border-color:#3b82f6; box-shadow:0 0 0 4px rgba(59,130,246,.15); }
+    button { margin-top:1rem; width:100%; padding:.9rem 1rem; background:#3b82f6; color:#fff; border:none; border-radius:10px; font-weight:700; cursor:pointer; }
+    .alt { margin-top:1rem; font-size:.9rem; }
+    .messages { margin:.5rem 0; color:#ef4444; }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h1>{% if mode=='login' %}Login{% else %}Create your account{% endif %}</h1>
+
+    <div class="messages">
+      {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+          {% for category, msg in messages %}
+            <div>{{ msg }}</div>
+          {% endfor %}
+        {% endif %}
+      {% endwith %}
+    </div>
+
+    {% if mode=='login' %}
+    <form method="POST">
+      <label for="identifier">Username or Email</label>
+      <input type="text" name="identifier" id="identifier" required />
+      <label for="password">Password</label>
+      <input type="password" name="password" id="password" required />
+      <button type="submit">Login</button>
+    </form>
+    <div class="alt">Don't have an account? <a href="{{ url_for('signup') }}">Sign up</a></div>
+    {% else %}
+    <form method="POST">
+      <label for="username">Username</label>
+      <input type="text" name="username" id="username" required />
+      <label for="email">Email</label>
+      <input type="email" name="email" id="email" required />
+      <label for="password">Password</label>
+      <input type="password" name="password" id="password" required />
+      <button type="submit">Create Account</button>
+    </form>
+    <div class="alt">Already have an account? <a href="{{ url_for('login') }}">Login</a></div>
+    {% endif %}
+  </div>
+</body>
+</html>

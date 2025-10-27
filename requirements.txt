@@ -3,3 +3,6 @@ groq
 reportlab
 python-dotenv
 requests
+flask-login
+flask-bcrypt
+flask-sqlalchemy

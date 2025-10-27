@@ -1,12 +1,63 @@
-from flask import Flask, render_template, request, jsonify, send_file
+from flask import Flask, render_template, request, jsonify, send_file, redirect, url_for, flash
 import os
 from dotenv import load_dotenv
 from groq import Groq
+from datetime import datetime
+from flask_sqlalchemy import SQLAlchemy
+from flask_login import (
+    LoginManager,
+    UserMixin,
+    login_user,
+    login_required,
+    current_user,
+    logout_user,
+)
+from flask_bcrypt import Bcrypt
 
 load_dotenv()
 GROQ_API_KEY = os.getenv("GROQ_API_KEY")
 client = Groq(api_key=GROQ_API_KEY)
 app = Flask(__name__)
+app.config["SECRET_KEY"] = os.getenv("SECRET_KEY", "dev-secret-change-me")
+app.config["SQLALCHEMY_DATABASE_URI"] = os.getenv("DATABASE_URL", "sqlite:///app.db")
+app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
+
+# DB/Auth setup
+db = SQLAlchemy(app)
+login_manager = LoginManager(app)
+login_manager.login_view = "login"
+bcrypt = Bcrypt(app)
+
+
+# Models
+class User(db.Model, UserMixin):
+    id = db.Column(db.Integer, primary_key=True)
+    username = db.Column(db.String(80), unique=True, nullable=False)
+    email = db.Column(db.String(120), unique=True, nullable=False)
+    password_hash = db.Column(db.String(255), nullable=False)
+    created_at = db.Column(db.DateTime, default=datetime.utcnow)
+
+    def set_password(self, password: str):
+        self.password_hash = bcrypt.generate_password_hash(password).decode("utf-8")
+
+    def check_password(self, password: str) -> bool:
+        return bcrypt.check_password_hash(self.password_hash, password)
+
+
+class Review(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey("user.id"), nullable=False)
+    itinerary_text = db.Column(db.Text, nullable=True)
+    rating = db.Column(db.Integer, nullable=False)
+    comment = db.Column(db.Text, nullable=False)
+    created_at = db.Column(db.DateTime, default=datetime.utcnow)
+
+    user = db.relationship("User")
+
+
+@login_manager.user_loader
+def load_user(user_id):
+    return db.session.get(User, int(user_id))
 
 # Temporary cache for last AI summary
 last_ai_summary = ""
@@ -84,6 +135,13 @@ def generate_with_groq(prompt):
     except Exception as e:
         return f"[Error generating itinerary: {e}]"
 
+# Ensure tables exist (non-destructive)
+with app.app_context():
+    try:
+        db.create_all()
+    except Exception:
+        pass
+
 # Landing page
 @app.route("/")
 def home():
@@ -134,13 +192,16 @@ Repeat for all {days} days, with a unique title, 2-4 activities per day, and a u
 
 # Export page (download options)
 @app.route("/export_page")
+@login_required
 def export_page():
     global last_ai_summary
     formatted_summary = format_to_html(last_ai_summary) if last_ai_summary else "<p>No summary generated yet. Please generate a plan first.</p>"
-    return render_template("export.html", summary=formatted_summary)
+    reviews = Review.query.order_by(Review.created_at.desc()).all()
+    return render_template("export.html", summary=formatted_summary, reviews=reviews)
 
 # Export file endpoint
 @app.route("/export", methods=["GET"])
+@login_required
 def export():
     from io import BytesIO
     fmt = request.args.get("format", "pdf")
@@ -164,6 +225,84 @@ def export():
         except Exception:
             txt_buffer = BytesIO(last_ai_summary.encode("utf-8"))
             return send_file(txt_buffer, as_attachment=True, download_name="VoyageIQ_Itinerary.txt", mimetype="text/plain")
+
+
+# ---------- Auth Routes ----------
+@app.route("/signup", methods=["GET", "POST"])
+def signup():
+    if request.method == "POST":
+        username = request.form.get("username", "").strip()
+        email = request.form.get("email", "").strip().lower()
+        password = request.form.get("password", "")
+
+        # Validation
+        if not username or not email or not password:
+            flash("All fields are required.", "error")
+            return redirect(url_for("signup"))
+
+        existing = User.query.filter((User.username == username) | (User.email == email)).first()
+        if existing:
+            flash("Username or email already exists.", "error")
+            return redirect(url_for("signup"))
+
+        user = User(username=username, email=email)
+        user.set_password(password)
+        db.session.add(user)
+        db.session.commit()
+        login_user(user)
+        flash("Welcome to VoyageIQ!", "success")
+        return redirect(url_for("home"))
+
+    return render_template("login_signup.html", mode="signup")
+
+
+@app.route("/login", methods=["GET", "POST"])
+def login():
+    if request.method == "POST":
+        identifier = request.form.get("identifier", "").strip()
+        password = request.form.get("password", "")
+        # Allow login with username or email
+        user = User.query.filter((User.username == identifier) | (User.email == identifier.lower())).first()
+        if user and user.check_password(password):
+            login_user(user)
+            flash("Logged in successfully!", "success")
+            next_url = request.args.get("next")
+            return redirect(next_url or url_for("home"))
+        flash("Invalid credentials.", "error")
+        return redirect(url_for("login"))
+
+    return render_template("login_signup.html", mode="login")
+
+
+@app.route("/logout")
+@login_required
+def logout():
+    logout_user()
+    flash("Logged out.", "success")
+    return redirect(url_for("home"))
+
+
+# ---------- Reviews ----------
+@app.route("/review", methods=["POST"])
+@login_required
+def add_review():
+    global last_ai_summary
+    rating = int(request.form.get("rating", 0))
+    comment = request.form.get("comment", "").strip()
+    if rating < 1 or rating > 5 or not comment:
+        flash("Please provide a rating (1-5) and a comment.", "error")
+        return redirect(url_for("export_page"))
+
+    review = Review(
+        user_id=current_user.id,
+        itinerary_text=last_ai_summary or "",
+        rating=rating,
+        comment=comment,
+    )
+    db.session.add(review)
+    db.session.commit()
+    flash("Review added successfully!", "success")
+    return redirect(url_for("export_page"))
 
 if __name__ == "__main__":
     app.run(debug=True)

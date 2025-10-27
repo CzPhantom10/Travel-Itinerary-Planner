@@ -28,6 +28,9 @@
   text-align: center;
   color: #fff;
   overflow: hidden;
+  /* Pull the hero under the navbar so the nav is translucent over the image at all times */
+  margin-top: -64px; /* approximate navbar height */
+  padding-top: 64px; /* keep content vertically centered */
     }
 
     .hero::before {
@@ -207,6 +210,7 @@
   </style>
 </head>
 <body>
+  {% include 'navbar.html' %}
 
   <!-- ===== Hero Section ===== -->
   <section class="hero">
