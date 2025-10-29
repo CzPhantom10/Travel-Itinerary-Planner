@@ -10,7 +10,6 @@ document.addEventListener("DOMContentLoaded", function() {
 		const from = new Date(fromDateInput.value);
 		const to = new Date(toDateInput.value);
 		if (fromDateInput.value && toDateInput.value && to >= from) {
-			// Calculate days (inclusive)
 			const diff = Math.round((to - from) / (1000 * 60 * 60 * 24)) + 1;
 			daysInput.value = diff;
 		}
